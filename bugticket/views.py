@@ -3,14 +3,18 @@ from django.contrib.auth import login, logout, authenticate
 from .forms import SignUpForm, LoginForm
 from bugticket.models import CustomUser, Ticket
 from django.contrib.auth.decorators import login_required
-
+from bugticket.forms import TicketForm
 
 @login_required
 def index(request):
     html = 'home.html'
-    data = CustomUser.objects.all()
-
-    return render(request, html, {'data':data})
+    user_data = CustomUser.objects.all()
+    form = TicketForm()
+    if request.method == "POST":
+        form = TicketForm(request.POST)
+        form.save()
+        return HttpResponseRedirect(reverse('home'))
+    return render(request, html, {'user_data':user_data, 'form':form})
 
 
 @login_required
@@ -58,6 +62,8 @@ def logoutview(request):
     logout(request)
     return HttpResponseRedirect(reverse('home'))
 
-def ticket_view(request, id):
-    ticket = ticket.objects.get(id=id)
-    return render(request, 'index.html', {'ticket': ticket})
+def ticket_details(request, id):
+    html = 'ticketdetail.html'
+    ticket = Ticket.objects.get(id=id)
+    return render(request, html, {'ticket': ticket})
+

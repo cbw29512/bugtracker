@@ -1,4 +1,4 @@
-<h1>Home</h1>
+<h1>HOME</h1>
 
 
 {% if user.is_authenticated %}
@@ -6,4 +6,10 @@
   <p><a href="{% url 'logout' %}"><button>logout</button></a></p>
   
 <p><a href="{% url 'signup' %}"><button>Create new account</button></a></p>
+<h2>Create Ticket</h2>
+<form action="" method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Add Ticket</button>
+</form>
 {% endif %}

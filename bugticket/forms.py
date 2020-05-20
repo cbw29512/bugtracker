@@ -15,6 +15,6 @@ class LoginForm(forms.Form):
 
 
 class TicketForm(forms.ModelForm):
-    class META:
+    class Meta:
         model = Ticket
         fields = ['title', 'date', 'description', 'filed_user', 'ticket_status', 'assigned_user', 'completed_user']
