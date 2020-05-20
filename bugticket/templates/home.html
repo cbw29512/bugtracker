@@ -1,0 +1,9 @@
+<h1>Home</h1>
+
+
+{% if user.is_authenticated %}
+  <h2>Hi <b><u>{{ user.username }}!</b></h2></u>
+  <p><a href="{% url 'logout' %}"><button>logout</button></a></p>
+  
+<p><a href="{% url 'signup' %}"><button>Create new account</button></a></p>
+{% endif %}
