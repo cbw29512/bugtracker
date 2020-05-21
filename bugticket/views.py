@@ -9,13 +9,10 @@ from bugticket.forms import TicketForm
 @login_required
 def index(request):
     html = 'home.html'
-    user_data = CustomUser.objects.all()
-    form = TicketForm()
-    if request.method == "POST":
-        form = TicketForm(request.POST)
-        form.save()
-        return HttpResponseRedirect(reverse('home'))
-    return render(request, html, {'user_data': user_data, 'form': form})
+    ticket_data = Ticket.objects.all()
+    return render(request, html, {
+        'ticket_data': ticket_data
+        })
 
 
 @login_required
@@ -60,7 +57,83 @@ def logoutview(request):
     return HttpResponseRedirect(reverse('home'))
 
 
+def create_ticket(request, user_id):
+    html = 'createticketform.html'
+    if request.method == 'POST':
+        form = TicketForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = CustomUser.objects.get(id=user_id)
+            Ticket.objects.create(
+                title=data['title'],
+                description=data['description'],
+                filed_user=user
+                )
+            return HttpResponseRedirect(reverse('home'))
+    form = TicketForm()
+    return render(request, html, {'form': form})
+
+
 def ticket_details(request, id):
-    html = 'ticketdetail.html'
+    html = 'ticket_detail.html'
     ticket = Ticket.objects.get(id=id)
     return render(request, html, {'ticket': ticket})
+
+
+def inprogress_ticket(request, ticket_id):
+    ticket = Ticket.objects.get(id=ticket_id)
+    ticket.ticket_status = "IN_PROGRESS"
+    ticket.assigned_user = request.user
+    ticket.assigned_user = None
+    ticket.save()
+    return HttpResponseRedirect(
+        reverse('ticket_detail', args=(ticket_id,)))
+
+
+def complete_ticket(request, ticket_id):
+    ticket = Ticket.objects.get(id=ticket_id)
+    ticket.ticket_status = 'DONE'
+    ticket.completed_user = request.user
+    ticket.assigned_user = None
+    ticket.save()
+    return HttpResponseRedirect(
+        reverse('ticket_detail', args=(ticket_id,)))
+
+
+def invalid_ticket(request, ticket_id):
+    ticket = Ticket.objects.get(id=ticket_id)
+    ticket.ticket_status = 'INVALID'
+    ticket.assigned_user = None
+    ticket.save()
+    return HttpResponseRedirect(
+        reverse('ticket_detail', args=(ticket_id,)))
+
+
+def edit_ticket(request, ticket_id):
+    ticket = Ticket.objects.get(id=ticket_id)
+    if request.method == 'POST':
+        form = TicketForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            ticket.title = data['title']
+            ticket.description = data['description']
+            ticket.save()
+        return HttpResponseRedirect(reverse('ticket_detail', args=(ticket_id,)))
+    form = TicketForm(initial={
+        'title': ticket.title,
+        'description': ticket.description,
+    })
+    return render(request, 'createticketform.html', {'form': form})
+
+
+def user_detail(request, user_id):
+    assigned_ticket = Ticket.objects.filter(assigned_user=user_id)
+    completed_ticket = Ticket.objects.filter(completed_user=user_id)
+    filed_ticket = Ticket.objects.filter(filed_user=user_id)
+    return render(
+        request,
+        'user_detail.html',
+        {'assigned_ticket': assigned_ticket,
+         'filed_ticket': filed_ticket,
+         'completed_ticket': completed_ticket
+         })

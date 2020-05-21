@@ -1,0 +1,16 @@
+<p><h3>Assigned</h3>
+<p>{% for ticket in assigned_ticket%}</p>
+{{ ticket }}
+{% endfor %}
+</p>
+<p><h3>Filed</h3>
+<p>{% for ticket in filed_ticket%}</p>
+{{ ticket }}
+{% endfor %}
+</p>
+<p><h3>Completed</h3>
+<p>{% for ticket in completed_ticket%}</p>
+{{ ticket }}
+{% endfor %}
+</p>
+<p><a href = {%url 'home' %}><button>Home</button></a></p>

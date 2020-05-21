@@ -1,20 +1,19 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser, Ticket
+from .models import CustomUser
 
 
-class SignUpForm(UserCreationForm): 
-    
+class SignUpForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = ('username', 'display_name', 'password1',)
 
+
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=50)
-    password = forms.CharField(widget = forms.PasswordInput)
+    password = forms.CharField(widget=forms.PasswordInput)
 
 
-class TicketForm(forms.ModelForm):
-    class Meta:
-        model = Ticket
-        fields = ['title', 'date', 'description', 'filed_user', 'ticket_status', 'assigned_user', 'completed_user']
+class TicketForm(forms.Form):
+    title = forms.CharField(max_length=50)
+    description = forms.CharField(widget=forms.Textarea)
