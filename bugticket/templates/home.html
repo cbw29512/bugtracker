@@ -1,11 +1,8 @@
 <h1>HOME</h1>
-
-
 {% if user.is_authenticated %}
   <h2>Hi <b><u>{{ user.username }}!</b></h2></u>
   <p><a href="{% url 'logout' %}"><button>logout</button></a></p>
 <p>
-
 <h3>New Ticket<h3>
 {% for ticket in ticket_data%}
 {% if ticket.ticket_status == "NEW"%}

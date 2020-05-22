@@ -33,7 +33,6 @@ def signupView(request):
     return render(request, html, {'form': form})
 
 
-@login_required
 def loginview(request):
     html = 'login.html'
     if request.method == "POST":
