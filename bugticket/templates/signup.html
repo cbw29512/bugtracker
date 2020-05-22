@@ -1,7 +1,14 @@
-<h2>Sign up</h2>
+{% load static %}
+<html>
+<head>
+<body>
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head><h2>Sign up</h2>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Sign up</button>
   </form>
   <a href = {% url 'login'%}><button>LogIn</button></a>
+</body>
+</html>

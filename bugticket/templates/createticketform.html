@@ -1,5 +1,13 @@
+{% load static %}
+<html>
+<head>
+<body>
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
 <form action="" method="post">
   {% csrf_token %}
   {{ form.as_p }}
   <button type="submit">Add Ticket</button>
 </form>
+</body>
+</html>

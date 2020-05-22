@@ -1,3 +1,9 @@
+{% load static %}
+<html>
+<head>
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
 <p><h3>Assigned</h3>
 <p>{% for ticket in assigned_ticket%}</p>
 {{ ticket }}
@@ -14,3 +20,5 @@
 {% endfor %}
 </p>
 <p><a href = {%url 'home' %}><button>Home</button></a></p>
+</body>
+</html>

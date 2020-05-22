@@ -1,9 +1,17 @@
+{% load static %}
+<html>
+<head>
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
 <h1>HOME</h1>
+
 {% if user.is_authenticated %}
   <h2>Hi <b><u>{{ user.username }}!</b></h2></u>
   <p><a href="{% url 'logout' %}"><button>logout</button></a></p>
+<div class="container">
 <p>
-<h3>New Ticket<h3>
+<div class="columns">New Ticket<h3>
 {% for ticket in ticket_data%}
 {% if ticket.ticket_status == "NEW"%}
   <p>Title: <a href = {%url 'ticket_detail' id=ticket.id%}>{{ticket.title}}</a> |
@@ -12,8 +20,8 @@
  {% endif %}
  {% endfor %}
  </p>
-
-<h3>Inprogress Ticket<h3>
+</div>
+<div class="columns">Inprogress Ticket<h3>
 {% for ticket in ticket_data%}
 {% if ticket.ticket_status == "IN_PROGRESS"%}
   <p>Title: <a href = {%url 'ticket_detail' id=ticket.id%}>{{ticket.title}}</a> |
@@ -22,8 +30,8 @@
  {% endif %}
  {% endfor %}
  </p>
-
-<h3>Completed Ticket<h3>
+</div>
+<div class="columns">Completed Ticket<h3>
 {% for ticket in ticket_data%}
 {% if ticket.ticket_status == "DONE"%}
   <p>Title: <a href = {%url 'ticket_detail' id=ticket.id%}>{{ticket.title}}</a> |
@@ -32,8 +40,8 @@
  {% endif %}
  {% endfor %}
  </p>
-
- <h3>Invalid Ticket<h3>
+</div>
+<div class="columns">Invalid Ticket<h3>
 {% for ticket in ticket_data%}
 {% if ticket.ticket_status == "INVALID"%}
   <p>Title: <a href = {%url 'ticket_detail' id=ticket.id%}>{{ticket.title}}</a> |
@@ -42,8 +50,11 @@
  {% endif %}
  {% endfor %}
  </p>
-
+</div>
+</div>
 <p><a href="{% url 'signup' %}"><button>Create new account</button></a></p>
 <h2>Create Ticket</h2>
 <p><a href="{% url 'create_ticket' user_id=user.id %}"><button>Create Ticket</button></a></p>
 {% endif %}
+</body>
+</html>

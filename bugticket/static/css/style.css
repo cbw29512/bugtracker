@@ -1,0 +1,26 @@
+
+h1 {
+    color:#C25100;
+    font-family: 'Lobster';
+}
+
+h2 {
+    color:#C25100;
+    font-family: 'Lobster';
+}
+
+body {
+    padding-left: 15px;
+}
+
+.container {
+    display: flex;
+    flex-direction: row; 
+}
+
+.columns {
+    flex-wrap: wrap; 
+    border: 1px solid black;
+    margin: 1px;
+    padding: 5px;
+}

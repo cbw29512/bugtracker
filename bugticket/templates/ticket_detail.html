@@ -1,3 +1,9 @@
+{% load static %}
+<html>
+<head>
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
 <h1> Ticket Detail </h1>
 <p>
 Title: {{ ticket.title }}
@@ -25,3 +31,5 @@ Completed by: {{ ticket.completed_user }}
 <p><a href = {%url 'invalid_ticket' ticket_id=ticket.id %}><button>Invalid</button></a></p>
 <p><a href = {%url 'complete_ticket' ticket_id=ticket.id %}><button>Done</button></a></p>
 <p><a href = {%url 'edit_ticket' ticket_id=ticket.id %}><button>Edit</button></a></p>
+</body>
+</html>
