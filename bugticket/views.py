@@ -33,6 +33,7 @@ def signupView(request):
     return render(request, html, {'form': form})
 
 
+@login_required
 def loginview(request):
     html = 'login.html'
     if request.method == "POST":
@@ -74,12 +75,14 @@ def create_ticket(request, user_id):
     return render(request, html, {'form': form})
 
 
+@login_required
 def ticket_details(request, id):
     html = 'ticket_detail.html'
     ticket = Ticket.objects.get(id=id)
     return render(request, html, {'ticket': ticket})
 
 
+@login_required
 def inprogress_ticket(request, ticket_id):
     ticket = Ticket.objects.get(id=ticket_id)
     ticket.ticket_status = "IN_PROGRESS"
@@ -90,6 +93,7 @@ def inprogress_ticket(request, ticket_id):
         reverse('ticket_detail', args=(ticket_id,)))
 
 
+@login_required
 def complete_ticket(request, ticket_id):
     ticket = Ticket.objects.get(id=ticket_id)
     ticket.ticket_status = 'DONE'
@@ -100,6 +104,7 @@ def complete_ticket(request, ticket_id):
         reverse('ticket_detail', args=(ticket_id,)))
 
 
+@login_required
 def invalid_ticket(request, ticket_id):
     ticket = Ticket.objects.get(id=ticket_id)
     ticket.ticket_status = 'INVALID'
@@ -109,6 +114,7 @@ def invalid_ticket(request, ticket_id):
         reverse('ticket_detail', args=(ticket_id,)))
 
 
+@login_required
 def edit_ticket(request, ticket_id):
     ticket = Ticket.objects.get(id=ticket_id)
     if request.method == 'POST':
@@ -118,7 +124,8 @@ def edit_ticket(request, ticket_id):
             ticket.title = data['title']
             ticket.description = data['description']
             ticket.save()
-        return HttpResponseRedirect(reverse('ticket_detail', args=(ticket_id,)))
+        return HttpResponseRedirect(
+            reverse('ticket_detail', args=(ticket_id,)))
     form = TicketForm(initial={
         'title': ticket.title,
         'description': ticket.description,
@@ -126,6 +133,7 @@ def edit_ticket(request, ticket_id):
     return render(request, 'createticketform.html', {'form': form})
 
 
+@login_required
 def user_detail(request, user_id):
     assigned_ticket = Ticket.objects.filter(assigned_user=user_id)
     completed_ticket = Ticket.objects.filter(completed_user=user_id)
