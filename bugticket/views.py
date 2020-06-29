@@ -86,7 +86,7 @@ def inprogress_ticket(request, ticket_id):
     ticket = Ticket.objects.get(id=ticket_id)
     ticket.ticket_status = "IN_PROGRESS"
     ticket.assigned_user = request.user
-    ticket.assigned_user = None
+    ticket.completed_user = None
     ticket.save()
     return HttpResponseRedirect(
         reverse('ticket_detail', args=(ticket_id,)))
@@ -108,6 +108,7 @@ def invalid_ticket(request, ticket_id):
     ticket = Ticket.objects.get(id=ticket_id)
     ticket.ticket_status = 'INVALID'
     ticket.assigned_user = None
+    ticket.completed_user = None
     ticket.save()
     return HttpResponseRedirect(
         reverse('ticket_detail', args=(ticket_id,)))
